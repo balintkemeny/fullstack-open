@@ -1,16 +1,14 @@
-const App = () => {
-  const now = new Date();
-  const a = 10;
-  const b = 20;
+const Hello = () => (
+  <div>
+    <p>Hello, World!</p>
+  </div>
+)
 
-  console.log(now, a+b);
-
-  return (
-    <div>
-      <p>Hello, World! It is {now.toString()}.</p>
-      <p>{a} + {b} is {a+b}.</p>
-    </div>
-  )
-}
+const App = () => (
+  <div>
+    <h1>Greetings!</h1>
+    <Hello />
+  </div>
+)
 
 export default App
