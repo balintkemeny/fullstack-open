@@ -3,9 +3,9 @@ import { useState } from "react"
 const App = () => {
   const [ value, setValue ] = useState(10);
 
-  const hello = () => {
+  const hello = (target) => {
     const handler = () => {
-      console.log("Hello, World!")
+      console.log(`Hello, ${target}!`);
     };
 
     return handler;
@@ -15,7 +15,7 @@ const App = () => {
   return (
     <div>
       {value}
-      <button onClick={hello()}>Click Me!</button>
+      <button onClick={hello("John")}>Click Me!</button>
     </div>
   );
 };
