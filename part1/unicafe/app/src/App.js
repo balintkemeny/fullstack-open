@@ -12,6 +12,15 @@ const Display = ({ label, value }) => (
 
 const Statistics = ({ good, neutral, bad }) => {
   const total = good + neutral + bad
+
+  if (!total) {
+    return (
+      <div>
+        <h1>statistics</h1>
+        <p>No feedback given</p>
+      </div>
+    )
+  }
   
   const getAverage = () => (good - bad) / total
   const getPositivePercentage = () => good / total * 100
