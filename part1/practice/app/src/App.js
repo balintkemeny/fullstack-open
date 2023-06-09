@@ -1,47 +1,21 @@
 import { useState } from "react"
 
-const History = ({ allClicks }) => {
-  if (allClicks.length === 0) {
-    return (
-      <div>
-        the app is used by pressing the buttons
-      </div>
-    )
-  }
-
-  return (
-    <div>
-      Button press history: {allClicks.join(' ')}
-    </div>
-  )
-};
-
-const Button = ({ handleClick, text }) => (
-  <button onClick={handleClick}>{text}</button>
-);
-
 const App = () => {
-  const [ left, setLeft ] = useState(0);
-  const [ right, setRight ] = useState(0);
-  const [ allClicks, setAllClicks ] = useState([]);
+  const [ value, setValue ] = useState(10);
 
-  const handleLeftClick = () => {
-    setLeft(left + 1);
-    setAllClicks(allClicks.concat('L'));
+  const hello = () => {
+    const handler = () => {
+      console.log("Hello, World!")
+    };
+
+    return handler;
   };
 
-  const handleRightClick = () => {
-    setRight(right + 1);
-    setAllClicks(allClicks.concat('R'));
-  };
 
   return (
     <div>
-      {left}
-      <Button handleClick={handleLeftClick} text='left' />
-      <Button handleClick={handleRightClick} text='right' />
-      {right}
-      <History allClicks={allClicks} />
+      {value}
+      <button onClick={hello()}>Click Me!</button>
     </div>
   );
 };
