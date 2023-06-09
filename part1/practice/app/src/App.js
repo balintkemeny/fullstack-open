@@ -1,20 +1,29 @@
 import { useState } from "react"
 
+const Display = ({ value }) => (
+  <div>
+    {value}
+  </div>
+)
+
+const Button = ({ handleClick, text }) => (
+  <button onClick={handleClick}>{text}</button>
+)
+
 const App = () => {
   const [ value, setValue ] = useState(10);
 
-  const setToValue = (newValue) => () => {
+  const setToValue = (newValue) => {
     setValue(newValue)
     console.log(`The value now is: ${newValue}.`);
   };
 
-
   return (
     <div>
-      {value}
-      <button onClick={setToValue(1000)}>Thousand</button>
-      <button onClick={setToValue(0)}>Reset</button>
-      <button onClick={setToValue(value + 1)}>Increment</button>
+      <Display value={value} />
+      <Button handleClick={() => setToValue(1000)} text='Thousand' />
+      <Button handleClick={() => setToValue(0)} text='Reset' />
+      <Button handleClick={() => setToValue(value + 1)} text='Increment' />
     </div>
   );
 };
