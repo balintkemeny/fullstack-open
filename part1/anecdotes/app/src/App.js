@@ -6,6 +6,13 @@ const Button = ({ handleClick, text }) => (
   </button>
 )
 
+const DisplayAnecdote = ({ anecdote, points }) => (
+  <div>
+    <p>{anecdote}</p>
+    <p>has {points} votes</p>
+  </div>
+)
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -28,13 +35,16 @@ const App = () => {
     setPoints(newPoints)
   }
 
+  const maxPointsIndex = points.indexOf(Math.max(...points))
 
   return (
     <div>
-      <p>{anecdotes[selected]}</p>
-      <p>has {points[selected]} votes</p>
+      <h1>Anecdote of the day</h1>
+      <DisplayAnecdote anecdote={anecdotes[selected]} points={points[selected]} />
       <Button handleClick={voteForSelected} text='vote' />
       <Button handleClick={nextAnecdote} text='next anecdote' />
+      <h1>Anecdote with most votes</h1>
+      <DisplayAnecdote anecdote={anecdotes[maxPointsIndex]} points={points[maxPointsIndex]} />
     </div>
   )
 }
