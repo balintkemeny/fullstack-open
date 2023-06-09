@@ -15,17 +15,14 @@ const App = () => {
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
 
-  const incrementGood = () => {
-    setGood(good + 1)
-  }
+  const total = good + neutral + bad
 
-  const incrementNeutral = () => {
-    setNeutral(neutral + 1)
-  }
-
-  const incrementBad = () => {
-    setBad(bad + 1)
-  }
+  const incrementGood = () => setGood(good + 1)
+  const incrementNeutral = () => setNeutral(neutral + 1)
+  const incrementBad = () => setBad(bad + 1)
+  const getAverage = () => (good - bad) / total
+  const getPositivePercentage = () => good / total * 100
+  const getPositivePercentageString = () => getPositivePercentage().toString().concat('%')
 
   return (
     <div>
@@ -34,9 +31,12 @@ const App = () => {
       <Button handleClick={incrementNeutral} text='neutral' />
       <Button handleClick={incrementBad} text='bad' />
       <h1>statistics</h1>
-      <Display label='good' value={good}/>
-      <Display label='neutral' value={neutral}/>
-      <Display label='bad' value={bad}/>
+      <Display label='good' value={good} />
+      <Display label='neutral' value={neutral} />
+      <Display label='bad' value={bad} />
+      <Display label='all' value={total} />
+      <Display label='average' value={getAverage()} />
+      <Display label='positive' value={getPositivePercentageString()} />
     </div>
   )
 }
