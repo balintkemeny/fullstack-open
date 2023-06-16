@@ -1,65 +1,65 @@
-import { useState } from 'react'
+import { useState } from "react";
+import Contacts from "./components/Contacts";
+import ContactForm from "./components/ContactForm";
+import Filter from "./components/Filter";
 
 const App = () => {
   const [contacts, setContacts] = useState([
-    { id: 1, name: 'Arto Hellas', number: '+151-2233445' }
-  ]) 
-  const [newName, setNewName] = useState('')
-  const [newNumber, setNewNumber] = useState('')
-  const [nameFilter, setNameFilter] = useState('')
+    { id: 1, name: "Arto Hellas", number: "+151-2233445" },
+  ]);
+  const [newName, setNewName] = useState("");
+  const [newNumber, setNewNumber] = useState("");
+  const [nameFilter, setNameFilter] = useState("");
 
-  const contactsToDisplay = nameFilter === ''
-    ? contacts
-    : contacts.filter(contact => contact.name.toLowerCase().includes(nameFilter.toLowerCase()))
+  const contactsToDisplay =
+    nameFilter === ""
+      ? contacts
+      : contacts.filter((contact) =>
+          contact.name.toLowerCase().includes(nameFilter.toLowerCase())
+        );
 
-  const handleInputChangeName = (event) => {
-    setNewName(event.target.value)
-  }
-
-  const handleInputChangeNumber = (event) => {
-    setNewNumber(event.target.value)
-  }
+  const handleChangeName = (event) => setNewName(event.target.value);
+  const handleChangeNumber = (event) => setNewNumber(event.target.value);
+  const handleChangeNameFilter = (event) => setNameFilter(event.target.value);
 
   const addNote = (event) => {
-    event.preventDefault()
-    
-    if (contacts.some(person => person.name === newName)) {
-      alert(`${newName} is already added to the Phonebook!`)
-      setNewName('')
-      setNewNumber('')
-      return
+    event.preventDefault();
+
+    if (contacts.some((person) => person.name === newName)) {
+      alert(`${newName} is already added to the Phonebook!`);
+      setNewName("");
+      setNewNumber("");
+      return;
     }
-    
+
     const contactObject = {
       id: contacts.length + 1,
       name: newName,
-      number: newNumber
-    }
+      number: newNumber,
+    };
 
-    console.log('Button clicked. New contact added: ', contactObject)
-    setContacts(contacts.concat(contactObject))
-    setNewName('')
-    setNewNumber('')
-  }
+    console.log("Button clicked. New contact added: ", contactObject);
+    setContacts(contacts.concat(contactObject));
+    setNewName("");
+    setNewNumber("");
+  };
 
   return (
     <div>
       <h2>Phonebook</h2>
-      <form>
-        <div>search: <input onChange={(event) => setNameFilter(event.target.value)} value={nameFilter}/></div>
-      </form>
+      <Filter filter={nameFilter} handleChangeFilter={handleChangeNameFilter} />
       <h2>Add a new contact:</h2>
-      <form onSubmit={addNote}>
-        <div>name: <input onChange={handleInputChangeName} value={newName}/></div>
-        <div>number: <input onChange={handleInputChangeNumber} value={newNumber}/></div>
-        <div><button type="submit">add</button></div>
-      </form>
+      <ContactForm
+        addNote={addNote}
+        handleChangeName={handleChangeName}
+        newName={newName}
+        handleChangeNumber={handleChangeNumber}
+        newNumber={newNumber}
+      />
       <h2>Contacts:</h2>
-      <ul>
-        {contactsToDisplay.map(person => <li key={person.id}>{person.name}: {person.number}</li>)}
-      </ul>
+      <Contacts contacts={contactsToDisplay} />
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
