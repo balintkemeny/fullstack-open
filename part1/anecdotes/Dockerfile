@@ -4,4 +4,4 @@ RUN npm install -g create-react-app
 
 EXPOSE 3000
 
-CMD /bin/bash
+CMD ["tail", "-f", "/dev/null"]
