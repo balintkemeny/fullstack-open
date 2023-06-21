@@ -7,3 +7,14 @@ services:
       - "3000:3000"
     volumes:
       - "./app:/app"
+    command: [ "npm", "start" ]
+
+  jsonserver:
+    build: 
+      context: .
+      dockerfile: Dockerfile.jsonserver
+    ports:
+      - "3001:3001"
+    volumes:
+      - "./data:/data"
+    command: [ "npx", "json-server", "--host", "0.0.0.0", "--port", "3001", "--watch", "db.json" ]
