@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import Contacts from "./components/Contacts";
 import ContactForm from "./components/ContactForm";
 import Filter from "./components/Filter";
+import contactService from "./services/contacts";
 
 const App = () => {
   const [contacts, setContacts] = useState([]);
@@ -11,8 +11,8 @@ const App = () => {
   const [nameFilter, setNameFilter] = useState("");
 
   useEffect(() => {
-    axios.get("http://localhost:3001/persons").then((response) => {
-      setContacts(response.data);
+    contactService.getAll().then((initialContacts) => {
+      setContacts(initialContacts);
     });
   }, []);
 
@@ -43,13 +43,12 @@ const App = () => {
       number: newNumber,
     };
 
-    axios
-      .post("http://localhost:3001/persons", contactObject)
-      .then((response) => {
-        console.log("Button clicked. New contact added: ", contactObject);
-        console.log(response.data);
+    contactService
+      .create(contactObject)
+      .then((newContact) => {
+        console.log("Button clicked. New contact added: ", newContact);
 
-        setContacts(contacts.concat(response.data));
+        setContacts(contacts.concat(newContact));
         setNewName("");
         setNewNumber("");
       });
