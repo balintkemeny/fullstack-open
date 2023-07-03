@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios"
+import axios from "axios";
 import Contacts from "./components/Contacts";
 import ContactForm from "./components/ContactForm";
 import Filter from "./components/Filter";
@@ -11,11 +11,9 @@ const App = () => {
   const [nameFilter, setNameFilter] = useState("");
 
   useEffect(() => {
-    axios
-      .get("http://localhost:3001/persons")
-      .then((response) => {
-        setContacts(response.data)
-      })
+    axios.get("http://localhost:3001/persons").then((response) => {
+      setContacts(response.data);
+    });
   }, []);
 
   const contactsToDisplay =
@@ -45,10 +43,16 @@ const App = () => {
       number: newNumber,
     };
 
-    console.log("Button clicked. New contact added: ", contactObject);
-    setContacts(contacts.concat(contactObject));
-    setNewName("");
-    setNewNumber("");
+    axios
+      .post("http://localhost:3001/persons", contactObject)
+      .then((response) => {
+        console.log("Button clicked. New contact added: ", contactObject);
+        console.log(response.data);
+
+        setContacts(contacts.concat(response.data));
+        setNewName("");
+        setNewNumber("");
+      });
   };
 
   return (
