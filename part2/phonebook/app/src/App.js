@@ -43,15 +43,22 @@ const App = () => {
       number: newNumber,
     };
 
-    contactService
-      .create(contactObject)
-      .then((newContact) => {
-        console.log("Button clicked. New contact added: ", newContact);
+    contactService.create(contactObject).then((newContact) => {
+      setContacts(contacts.concat(newContact));
+      setNewName("");
+      setNewNumber("");
+    });
+  };
 
-        setContacts(contacts.concat(newContact));
-        setNewName("");
-        setNewNumber("");
-      });
+  const deleteNoteWithId = (id) => () => {
+    const contact = contacts.find((c) => c.id === id);
+    if (!window.confirm(`Delete ${contact.name}?`)) {
+      return;
+    }
+
+    contactService.deleteWithId(id).then(() => {
+      setContacts(contacts.filter((c) => c.id !== id));
+    });
   };
 
   return (
@@ -67,7 +74,7 @@ const App = () => {
         newNumber={newNumber}
       />
       <h2>Contacts:</h2>
-      <Contacts contacts={contactsToDisplay} />
+      <Contacts contacts={contactsToDisplay} deleteHandler={deleteNoteWithId} />
     </div>
   );
 };
