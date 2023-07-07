@@ -3,7 +3,7 @@ import Contacts from "./components/Contacts";
 import ContactForm from "./components/ContactForm";
 import Filter from "./components/Filter";
 import contactService from "./services/contacts";
-import Notification from "./components/Notification"
+import Notification from "./components/Notification";
 
 const App = () => {
   const [contacts, setContacts] = useState([]);
@@ -49,7 +49,10 @@ const App = () => {
       setContacts(contacts.concat(newContact));
       setNewName("");
       setNewNumber("");
-      setNotification({ message: `Added ${newContact.name} to the Phonebook`, type: "notificationSuccess" })
+      setNotification({
+        message: `Added ${newContact.name} to the Phonebook`,
+        type: "notificationSuccess",
+      });
       setTimeout(resetNotification, 5000);
     });
   };
@@ -60,9 +63,23 @@ const App = () => {
       return;
     }
 
-    contactService.deleteWithId(id).then(() => {
-      setContacts(contacts.filter((c) => c.id !== id));
-    });
+    contactService
+      .deleteWithId(id)
+      .then(() => {
+        setNotification({
+          message: `Deleted ${contact.name} from the Phonebook`,
+          type: "notificationSuccess",
+        });
+      })
+      .catch(() => {
+        setNotification({
+          message: `The contact ${contact.name} has already been deleted.`,
+          type: "notificationError",
+        });
+      })
+      .finally(() => {
+        setContacts(contacts.filter((c) => c.id !== id));
+      });
   };
 
   const updateContactPhoneNumber = (contact) => {
@@ -77,7 +94,10 @@ const App = () => {
             c.id === modifiedContact.id ? modifiedContact : c
           )
         );
-        setNotification({ message: `Modified ${modifiedContact.name}'s phone number`, type: "notificationSuccess" })
+        setNotification({
+          message: `Modified ${modifiedContact.name}'s phone number`,
+          type: "notificationSuccess",
+        });
         setTimeout(resetNotification, 5000);
       });
     }
