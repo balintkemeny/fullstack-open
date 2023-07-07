@@ -30,10 +30,9 @@ const App = () => {
   const addNote = (event) => {
     event.preventDefault();
 
-    if (contacts.some((person) => person.name === newName)) {
-      alert(`${newName} is already added to the Phonebook!`);
-      setNewName("");
-      setNewNumber("");
+    const existingContact = contacts.find((c) => c.name === newName);
+    if (existingContact) {
+      updateContactPhoneNumber({ ...existingContact, number: newNumber });
       return;
     }
 
@@ -59,6 +58,25 @@ const App = () => {
     contactService.deleteWithId(id).then(() => {
       setContacts(contacts.filter((c) => c.id !== id));
     });
+  };
+
+  const updateContactPhoneNumber = (contact) => {
+    if (
+      window.confirm(
+        `${contact.name} is already added to the phonebook. Replace the old number with the new one?`
+      )
+    ) {
+      contactService.update(contact).then((modifiedContact) => {
+        setContacts(
+          contacts.map((c) =>
+            c.id === modifiedContact.id ? modifiedContact : c
+          )
+        );
+      });
+    }
+
+    setNewName("");
+    setNewNumber("");
   };
 
   return (
