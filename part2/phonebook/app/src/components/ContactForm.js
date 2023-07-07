@@ -1,5 +1,5 @@
 const ContactForm = (props) => (
-  <form onSubmit={props.addNote}>
+  <form onSubmit={props.upsertContact}>
     <div>
       name: <input onChange={props.handleChangeName} value={props.newName} />
     </div>
