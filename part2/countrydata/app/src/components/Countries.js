@@ -1,8 +1,9 @@
-const CountryList = ({ countryList }) => (
+const CountryList = ({ countryList, createShowButtonHandler }) => (
   <ul>
     {countryList.map((country) => (
       <li key={country.id}>
-        {country.id}: {country.name}
+        {country.name}
+        <button onClick={createShowButtonHandler(country.name)}>show</button>
       </li>
     ))}
   </ul>
@@ -13,7 +14,7 @@ const CountryDetails = ({ countryDetails }) => (
     <h1>{countryDetails.name.common}</h1>
     <p>
       Capital: {countryDetails.capital[0]}
-      <br/>
+      <br />
       Area: {countryDetails.area} km^2
     </p>
     <h2>Languages:</h2>
@@ -26,7 +27,7 @@ const CountryDetails = ({ countryDetails }) => (
   </div>
 );
 
-const Countries = ({ countryNames, filter, getDataForCountry }) => {
+const Countries = ({ countryNames, filter, getDataForCountry, createShowButtonHandler }) => {
   const filteredCountries = countryNames.filter((country) =>
     country.name.toLowerCase().includes(filter.toLowerCase())
   );
@@ -36,14 +37,14 @@ const Countries = ({ countryNames, filter, getDataForCountry }) => {
 
   if (filteredCountries.length === 1) {
     console.log(filteredCountries[0]);
-    const countryDetails = getDataForCountry(filteredCountries[0].name)
+    const countryDetails = getDataForCountry(filteredCountries[0].name);
     console.log(countryDetails);
     return <CountryDetails countryDetails={countryDetails} />;
   }
 
   return (
     <div>
-      <CountryList countryList={filteredCountries} />
+      <CountryList countryList={filteredCountries} createShowButtonHandler={createShowButtonHandler} />
     </div>
   );
 };

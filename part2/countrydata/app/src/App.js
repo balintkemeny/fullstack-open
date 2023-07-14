@@ -29,6 +29,7 @@ const App = () => {
   };
 
   const handleFilterChange = (event) => setFilter(event.target.value);
+  const createShowButtonHandler = (countryName) => () => setFilter(countryName);
 
   return (
     <div>
@@ -37,6 +38,7 @@ const App = () => {
         filter={filter}
         countryNames={countryNames}
         getDataForCountry={getDataForCountry}
+        createShowButtonHandler={createShowButtonHandler}
       />
     </div>
   );
