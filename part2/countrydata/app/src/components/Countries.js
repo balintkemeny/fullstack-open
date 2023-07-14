@@ -9,42 +9,59 @@ const CountryList = ({ countryList, createShowButtonHandler }) => (
   </ul>
 );
 
-const CountryDetails = ({ countryDetails }) => (
+const CountryDetails = ({ basicData, weatherData }) => (
   <div>
-    <h1>{countryDetails.name.common}</h1>
+    <h1>{basicData.name.common}</h1>
     <p>
-      Capital: {countryDetails.capital[0]}
+      Capital: {basicData.capital[0]}
       <br />
-      Area: {countryDetails.area} km^2
+      Area: {basicData.area} km^2
     </p>
     <h2>Languages:</h2>
     <ul>
-      {Object.values(countryDetails.languages).map((language, i) => (
+      {Object.values(basicData.languages).map((language, i) => (
         <li key={i}>{language}</li>
       ))}
     </ul>
-    <img alt={countryDetails.flags.alt} src={countryDetails.flags.png}></img>
+    <img alt={basicData.flags.alt} src={basicData.flags.png}></img>
+    <h2>Weather in {basicData.capital[0]}</h2>
+    <p>
+      Temperature: {weatherData.temperature} °C
+      <br />
+      <img
+        alt="temperature icon"
+        src={`https://openweathermap.org/img/wn/${weatherData.icon}@2x.png`}
+      ></img>
+      <br />
+      Wind: {weatherData.wind} m/s
+    </p>
   </div>
 );
 
-const Countries = ({ countryNames, filter, getDataForCountry, createShowButtonHandler }) => {
-  const filteredCountries = countryNames.filter((country) =>
-    country.name.toLowerCase().includes(filter.toLowerCase())
-  );
+const Countries = ({
+  filteredCountries,
+  selectedCountryDetails,
+  createShowButtonHandler,
+}) => {
+  if (selectedCountryDetails && filteredCountries.length === 1) {
+    return (
+      <CountryDetails
+        basicData={selectedCountryDetails.basicData}
+        weatherData={selectedCountryDetails.weatherData}
+      />
+    );
+  }
+
   if (filteredCountries.length > 10) {
     return <div>Too many matches, make filter more specific.</div>;
   }
 
-  if (filteredCountries.length === 1) {
-    console.log(filteredCountries[0]);
-    const countryDetails = getDataForCountry(filteredCountries[0].name);
-    console.log(countryDetails);
-    return <CountryDetails countryDetails={countryDetails} />;
-  }
-
   return (
     <div>
-      <CountryList countryList={filteredCountries} createShowButtonHandler={createShowButtonHandler} />
+      <CountryList
+        countryList={filteredCountries}
+        createShowButtonHandler={createShowButtonHandler}
+      />
     </div>
   );
 };
