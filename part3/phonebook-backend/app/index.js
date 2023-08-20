@@ -25,11 +25,24 @@ let contacts = [
   },
 ];
 
+const getCurrentDatetime = () => {
+  const date = new Date();
+  return date.toLocaleString();
+};
+
+const getInfo = () =>
+  `<p>Phonebook has info for ${contacts.length} people.</p>` +
+  `<p>${getCurrentDatetime()}</p>`;
+
 app.get("/api/persons", (req, res) => {
   res.json(contacts);
 });
 
-const PORT = 3000;
+app.get("/info", (req, res) => {
+  res.send(getInfo());
+});
+
+const PORT = 3001;
 app.listen(PORT, () => {
   console.log(`Server started on port: ${PORT}`);
 });

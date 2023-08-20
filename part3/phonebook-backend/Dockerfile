@@ -1,6 +1,6 @@
 FROM node:19-bullseye
 
-EXPOSE 3000
+EXPOSE 3001
 
 WORKDIR /app
 
