@@ -1,6 +1,7 @@
 const express = require("express");
 
 const app = express();
+const range = 10000;
 
 let contacts = [
   {
@@ -34,6 +35,10 @@ const getInfo = () =>
   `<p>Phonebook has info for ${contacts.length} people.</p>` +
   `<p>${getCurrentDatetime()}</p>`;
 
+const getNewId = () => Math.floor(Math.random() * range);
+
+app.use(express.json());
+
 app.get("/api/persons", (req, res) => {
   res.json(contacts);
 });
@@ -58,7 +63,32 @@ app.delete("/api/persons/:id", (req, res) => {
   contacts = contacts.filter((c) => c.id !== id);
 
   res.status(204).end();
-})
+});
+
+app.post("/api/persons", (req, res) => {
+  const { name, number } = req.body;
+  if (!name || !number) {
+    return res.status(400).json({
+      error: "missing name or number",
+    });
+  }
+
+  const alreadyExistingContact = contacts.find((c) => c.name === name);
+  if (alreadyExistingContact) {
+    return res.status(400).json({
+      error: "name must be unique",
+    });
+  }
+
+  const newContact = {
+    id: getNewId(),
+    name: name,
+    number: number,
+  };
+
+  contacts = contacts.concat(newContact);
+  res.json(newContact);
+});
 
 const PORT = 3001;
 app.listen(PORT, () => {
