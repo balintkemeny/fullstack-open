@@ -38,8 +38,16 @@ const getInfo = () =>
 
 const getNewId = () => Math.floor(Math.random() * range);
 
-app.use(morgan("tiny"));
+morgan.token("postBody", (req, res) =>
+  req.method === "POST" ? JSON.stringify(req.body) : ""
+);
+
 app.use(express.json());
+app.use(
+  morgan(
+    ":method :url :status :res[content-length] - :response-time ms :postBody"
+  )
+);
 
 app.get("/api/persons", (req, res) => {
   res.json(contacts);
