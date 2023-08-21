@@ -1,4 +1,5 @@
 const express = require("express");
+const morgan = require("morgan");
 
 const app = express();
 const range = 10000;
@@ -37,6 +38,7 @@ const getInfo = () =>
 
 const getNewId = () => Math.floor(Math.random() * range);
 
+app.use(morgan("tiny"));
 app.use(express.json());
 
 app.get("/api/persons", (req, res) => {
