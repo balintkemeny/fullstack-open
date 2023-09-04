@@ -43,6 +43,7 @@ morgan.token("postBody", (req, res) =>
 );
 
 app.use(express.json());
+app.use(express.static("frontend"));
 app.use(
   morgan(
     ":method :url :status :res[content-length] - :response-time ms :postBody"
